@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Addproducts
+{% endblock  %}
+
+
+{% block content %}
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><b>Foxsheep</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('admin') }}">Admin</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('addproduct') }}">Add product</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('brands') }}">Brands</a>
+          </li>
+         <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('categorys') }}">Category</a>
+          </li>
+        </ul>
+  <div>
+      <a href="{{url_for('Logout')}}" type="button"  class="btn btn-outline-danger">Logout</a>
+  </div>
+<div>
+
+</div>      
+
+            </div>
+    </div>
+  </nav>
+      
+       
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-2 "></div>
+      <div class="col-md-8 p-1"> 
+        {% include '_messages.html' %}
+        <h2 class="text-center mt-2 py-3 text-white bg-dark  "> Add Product</h2>
+        {% from "_formhelpers.html" import render_field %}
+        <form method="POST" class="pt-3 mx-5" enctype="multipart/form-data">
+          <div>
+            {{ render_field(form.name,class="form-control mt-1 border-info",placeholder= "Add product name") }}
+            {{ render_field(form.gender,class="form-control border-info",placeholder= "Select Gender") }}
+            {{ render_field(form.price,class="form-control  border-info",placeholder= "Add price") }} 
+
+            {{ render_field(form.discount,class="form-control border-info",placeholder= "Add Discount") }}
+            {{ render_field(form.stock,class="form-control  border-info",placeholder= "Add stock") }}
+            {{ render_field(form.description,class="form-control border-info",placeholder= "Add product discription") }}
+
+            <label class="mb-1" for="brand"><b>Add brand </b></label>
+           <select name="brand" id="brand" class="form-control mb-2  border-info" required>
+            <option value=""> select brand </option>
+            {% for brand in brands %}
+             
+              <option value="{{brand.id}}"> {{ brand.name }} </option>
+            {% endfor %}
+             
+          </select>
+
+            <label for="category" class="mb-1"><b> Add category </b> </label>
+           <select name="category" id="category" class="form-control  mb-2 border-info" required>
+            <option value=""> select category  </</option>
+            {% for category in categorys %}
+             <option value="{{category.id}}"> {{ category.name }} </option>
+            {% endfor %}
+           </select>
+
+            {{ render_field(form.color,class="form-control border-info",placeholder= "Add products color") }}
+           
+                
+          
+          
+ 
+            <div class="container pt-3 ">
+              <label for="" class="mb-3">Image 1 is mandatory to upload</label>
+               <div class="row  text-center">
+              
+                  <div class="col-md-4">  {{ render_field(form.image1,class="form-control border-dark", required=True ) }}</div>
+                  <div class="col-md-4">  {{ render_field(form.image2,class="form-control border-dark") }}</div>
+                  <div class="col-md-4">  {{ render_field(form.image3,class="form-control border-dark") }}</div>
+
+               </div>
+
+            </div>
+
+
+        
+          </div>
+          <p><input type="submit"  class="btn btn-primary mt-3" value=Register> </p>
+        </form>
+
+
+      </div>
+      <div class="col-md-2 "></div>
+
+    </div>
+    
+     
+
+
+  </div>
+{% endblock  %}

@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Update products
+{% endblock  %}
+
+
+{% block content %}
+       
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-2 "></div>
+      <div class="col-md-8 p-1"> 
+        {% include '_messages.html' %}
+        <h2 class="text-center mt-2 py-3 text-white bg-dark  "> Update Product</h2>
+        {% from "_formhelpers.html" import render_field %}
+        <form method="POST" class="pt-3 mx-5" enctype="multipart/form-data">
+          <div>
+            {{ render_field(form.name,class="form-control mt-1 border-info",placeholder= "Add product name") }}
+            {{ render_field(form.gender,class="form-control border-info",placeholder= "Select Gender") }}
+            {{ render_field(form.price,class="form-control  border-info",placeholder= "Add price") }} 
+
+            {{ render_field(form.discount,class="form-control border-info",placeholder= "Add Discount") }}
+            {{ render_field(form.stock,class="form-control  border-info",placeholder= "Add stock") }}
+            {{ render_field(form.description,class="form-control border-info",placeholder= "Add product discription") }}
+
+            <label class="mb-1" for="brand"><b>Add brand </b></label>
+           <select name="brand" id="brand" class="form-control mb-2  border-info" required>
+            <option value="{{updateproducts.brand_id}}">{{updateproducts.brand.name}} </option>
+            {% for brand in brands %}
+             
+              <option value="{{brand.id}}"> {{ brand.name }} </option>
+            {% endfor %}
+             
+          </select>
+
+            <label for="category" class="mb-1"><b> Add category </b> </label>
+           <select name="category" id="category" class="form-control  mb-2 border-info" required>
+            <option value="{{updateproducts.category_id}}"> {{updateproducts.category.name}}  </</option>
+            {% for category in categorys %}
+             <option value="{{category.id}}"> {{ category.name }} </option>
+            {% endfor %}
+           </select>
+
+            {{ render_field(form.color,class="form-control border-info",placeholder= "Add products color") }}
+           
+                
+          
+          
+ 
+            <div class="container pt-3 ">
+              <label for="" class="mb-3">Image 1 is mandatory to upload</label>
+               <div class="row  text-center">
+              
+                  <div class="col-md-4">  {{ render_field(form.image1,class="form-control border-dark", required=True ) }}</div>
+                  <div class="col-md-4">  {{ render_field(form.image2,class="form-control border-dark") }}</div>
+                  <div class="col-md-4">  {{ render_field(form.image3,class="form-control border-dark") }}</div>
+
+               </div>
+
+            </div>
+
+
+        
+          </div>
+          <p><input type="submit"  class="btn btn-primary mt-3" value="Update"> 
+          <a type="button" class="btn  btn-outline-danger  mt-3 ms-3 "  href="{{url_for('admin')}}"> Cancel</a>
+        </p>
+        </form>
+
+
+      </div>
+      <div class="col-md-2 "></div>
+
+    </div>
+    
+     
+
+
+  </div>
+{% endblock  %}

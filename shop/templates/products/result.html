@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+ {% include '_navbar.html' %}
+
+
+ <div class="container my-3 pb-3" >
+   
+  
+    
+  
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+       {% for product in products %}
+        <div class="col">
+          <div class="card h-100 rounded">
+           <a href="{{url_for('single_page' ,id=product.id )}}"> <img src="{{url_for('static', filename ='images/'+ product.image1) }}" height="220" class="card-img-top" alt="..."></a>
+            <div class="card-body">
+              {% if product.category.name == "Trends" %}
+              <h5 class="card-title text-center"> {{product.brand.name}} {{product.name}}</h5>
+              {% else %}
+              <h5 class="card-title text-center"> {{product.name}}</h5>
+
+              {% endif %}
+              
+              <p class="card-text text-center " >{{product.description}}</p>
+              {% if product.discount > 0 %}
+              <div> 
+                <p class="card-text " ><b>  Discount : {{product.discount}}% </b>
+                   &emsp; <b>Price : {{product.price}}₹ </b> </p>
+                
+
+              </div>
+              {% endif %}
+            </div>
+            <div class="card-footer pb-0 ">
+              
+             
+                <form action="{{url_for('addcart')}}"method="POST" >
+                  <input type="hidden" name="product_id" value="{{product.id}}">
+                  <div class="pb-0 mb-0">
+                  <a href="{{url_for('single_page', id=product.id )}}" type="button" class="ms-4  mt-1 pb-2 px-4  text-decoration-none card-link btn btn-outline-dark ">Info</a>
+                  <button type="submit"  class= " ms-4 pb-2 mt-1 btn btn-dark " >Add to cart</button>
+                
+                
+                  <input type="hidden"  name= "quantity" value="1" min="1" max="{{product.stock}}"  >
+                </div>
+                  {% set colors = product.color.split(",") %}
+               
+                  <select name="color" id="colors" style="visibility: hidden;">
+                  {% for color in colors  %}
+                  {% set col = color.split(':')  %}
+                    <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                  {% endfor %}
+                  </select>
+      
+            
+      
+      
+              </form> 
+                 
+
+             
+              <!-- <a href="{{url_for('single_page' , id=product.id )}}" type="button" class=" px-3 me-2  text-decoration-none card-link btn btn-outline-secondary ">Info</a>
+              <a href=""  type="button" class="px-3 ms-2 text-decoration-none card-link btn btn-dark"> Buy </a>
+             -->
+            
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div> 
+
+       
+
+
+        
+</div>
+
+
+{% endblock  %}
+
+
+
+
+

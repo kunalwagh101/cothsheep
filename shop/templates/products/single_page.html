@@ -1,0 +1,138 @@
+{% extends 'layout.html' %}
+{% block title %}
+    {{product.name}}
+{% endblock  %}
+
+
+{% block content %}
+
+{% include '_navbar.html' %}
+
+ <!-- nav end -->
+<div class="container my-5">
+   {% include '_messages.html' %}
+
+
+    <div class="row ms-3 ">
+        
+        <div class="col-md-4  rounded">
+            <img src="{{ url_for('static', filename='images/' + product.image1) }}" class="rounded ms-4"   height = "430" width="400" alt="{{ product.name }}">
+
+        </div>
+
+        <div class="col-md-6 ms-4 ">
+            
+        <h3>Product name : {{product.name}} </h3>
+        <hr>
+        {% if product.discount > 0  %}
+        <p> <b> Discount : </b> {{product.discount}}%  </p>
+        {% endif %}
+
+        <p> <b> Discount  : </b>{{ product.price }}₹  </p>
+        <p><b> Description : </b></p>
+        <p>{{product.description}}</p>
+       <div class="mt-3 pt-5" >
+        <form  action="{{url_for('addcart')}}"method="POST" >
+            <input type="hidden" name="product_id" value="{{product.id}}">
+
+            <button type="submit"  class= "btn btn-primary btn-lg" >Add to cart</button>  &emsp;
+            
+            <label for =""><b> Quantity : </b> </label>  
+            <input type="number" name= "quantity" value="1" min="1" max="{{product.stock}}"  >  &emsp;
+           
+            {% set colors = product.color.split(",") %}
+            <label for=""><b>  Color : </b>  </label>
+            <select name="color" id="">
+            {% for color in colors  %}
+            {% set col = color.split(':')  %}
+              <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+            {% endfor %}
+            </select>
+
+      
+
+
+        </form>
+      </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- product end -->
+
+<!-- similar content  -->
+<h3 class="text-center"> Similar clothing Wear </h3>
+
+<div class="container my-5 pt-4 " >
+   
+  
+    
+  
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-4">
+  
+       {% for c in cat_filters %}
+        <div class="col">
+          <div class="card h-100 rounded">
+            <img src="{{url_for('static', filename ='images/'+ c.image1) }}" height="220" width="200" class="card-img-top rounded" alt="...">
+            <div class="card-body">
+      
+              <h5 class="card-title text-center"> {{c.name}}</h5>
+  
+              <p class="card-text text-center " >{{c.description}}</p>
+              {% if c.discount > 0 %}
+              <div> 
+                <p class="card-text " ><b>  Discount : {{c.discount}}% </b>
+                   &emsp; <b>Price : {{c.price}}₹ </b> </p>
+                
+  
+              </div>
+              {% endif %}
+            </div>
+            <div class="card-footer ">
+              <form action="{{url_for('addcart')}}"method="POST" >
+                <input type="hidden" name="product_id" value="{{c.id}}">
+                <div class="d-grid gap-2 mt-3">
+                  <button type="submit"  class= " mx-3 px-2  btn  btn-dark  card-link " >Add to cart</button>
+                  </div>
+              
+                <input type="hidden"  name= "quantity" value="1" min="1" max="{{c.stock}}"  >
+               
+                {% set colors = c.color.split(",") %}
+             
+                <select name="color" id="colors" style="visibility: hidden;">
+                {% for color in colors  %}
+                {% set col = color.split(':')  %}
+                  <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                {% endfor %}
+                </select>
+    
+          
+    
+    
+            </form>          
+  
+
+
+
+              <!-- <div class="text-center"> 
+             
+              <a href="{{url_for('single_page', id=c.id )}}" type="button" class=" px-3 me-2  text-decoration-none card-link btn btn-outline-secondary ">Info</a>
+              <a href="#"  type="button" class="px-3 ms-2 text-decoration-none card-link btn btn-dark"> Buy </a>
+            </div> -->
+  
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div> 
+  
+       
+  
+  
+        
+  </div>
+
+{% endblock  %}
